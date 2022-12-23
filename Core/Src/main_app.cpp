@@ -7,7 +7,7 @@
 
 #include "main_app_api.h"
 #include "main.h"
-#include "custom_stm.h"
+#include "custom_app.h"
 
 void mainApp()
 {
@@ -16,7 +16,7 @@ void mainApp()
     if(cnt++ > 100000)
     {
         HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
-        Custom_STM_App_Update_Char(CUSTOM_STM_BATLVL, &batteryLevel);
+        setBatteryLevel(batteryLevel);
         if(batteryLevel-- == 0)
         {
             batteryLevel = 99;

@@ -174,7 +174,11 @@ void Custom_APP_Init(void)
 }
 
 /* USER CODE BEGIN FD */
-
+void setBatteryLevel(uint8_t value)
+{
+    UpdateCharData[0] = value;
+    Custom_Batlvl_Update_Char();
+}
 /* USER CODE END FD */
 
 /*************************************************************
@@ -189,7 +193,7 @@ void Custom_Batlvl_Update_Char(void) /* Property Read */
   uint8_t updateflag = 0;
 
   /* USER CODE BEGIN Batlvl_UC_1*/
-
+updateflag = 1;
   /* USER CODE END Batlvl_UC_1*/
 
   if (updateflag != 0)
