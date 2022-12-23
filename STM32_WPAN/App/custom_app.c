@@ -174,10 +174,16 @@ void Custom_APP_Init(void)
 }
 
 /* USER CODE BEGIN FD */
-void setBatteryLevel(uint8_t value)
+void updateBatteryLevel(uint8_t value)
 {
     UpdateCharData[0] = value;
     Custom_Batlvl_Update_Char();
+}
+
+void notifyBatteryLevel(uint8_t value)
+{
+    NotifyCharData[0] = value;
+    Custom_Batlvl_Send_Notification();
 }
 /* USER CODE END FD */
 
@@ -212,7 +218,7 @@ void Custom_Batlvl_Send_Notification(void) /* Property Notification */
   uint8_t updateflag = 0;
 
   /* USER CODE BEGIN Batlvl_NS_1*/
-
+  updateflag = 1;
   /* USER CODE END Batlvl_NS_1*/
 
   if (updateflag != 0)

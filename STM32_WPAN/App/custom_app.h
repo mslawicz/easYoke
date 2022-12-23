@@ -68,7 +68,8 @@ typedef struct
 void Custom_APP_Init(void);
 void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification);
 /* USER CODE BEGIN EF */
-void setBatteryLevel(uint8_t value);
+void updateBatteryLevel(uint8_t value);
+void notifyBatteryLevel(uint8_t value);
 /* USER CODE END EF */
 
 #ifdef __cplusplus

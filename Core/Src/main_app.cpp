@@ -13,10 +13,19 @@ void mainApp()
 {
     static uint32_t cnt = 0;
     static uint8_t batteryLevel = 99;
-    if(cnt++ > 100000)
+    static bool notify = false;
+    if(cnt++ > 300000)
     {
-        HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
-        setBatteryLevel(batteryLevel);
+        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+        if(notify)
+        {
+            notifyBatteryLevel(batteryLevel);
+        }
+        else
+        {
+            updateBatteryLevel(batteryLevel);
+        }
+        notify = !notify;
         if(batteryLevel-- == 0)
         {
             batteryLevel = 99;
