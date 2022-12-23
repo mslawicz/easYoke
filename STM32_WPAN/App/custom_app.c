@@ -35,7 +35,8 @@
 /* Private typedef -----------------------------------------------------------*/
 typedef struct
 {
-  /* my_custom_srv */
+  /* BatteryService */
+  uint8_t               Batlvl_Notification_Status;
   /* USER CODE BEGIN CUSTOM_APP_Context_t */
 
   /* USER CODE END CUSTOM_APP_Context_t */
@@ -76,7 +77,9 @@ uint8_t NotifyCharData[247];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-/* my_custom_srv */
+/* BatteryService */
+static void Custom_Batlvl_Update_Char(void);
+static void Custom_Batlvl_Send_Notification(void);
 
 /* USER CODE BEGIN PFP */
 
@@ -94,11 +97,23 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
 
     /* USER CODE END CUSTOM_STM_App_Notification_Custom_Evt_Opcode */
 
-    /* my_custom_srv */
-    case CUSTOM_STM_MYCHAR_READ_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_MYCHAR_READ_EVT */
+    /* BatteryService */
+    case CUSTOM_STM_BATLVL_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_BATLVL_READ_EVT */
 
-      /* USER CODE END CUSTOM_STM_MYCHAR_READ_EVT */
+      /* USER CODE END CUSTOM_STM_BATLVL_READ_EVT */
+      break;
+
+    case CUSTOM_STM_BATLVL_NOTIFY_ENABLED_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_BATLVL_NOTIFY_ENABLED_EVT */
+
+      /* USER CODE END CUSTOM_STM_BATLVL_NOTIFY_ENABLED_EVT */
+      break;
+
+    case CUSTOM_STM_BATLVL_NOTIFY_DISABLED_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_BATLVL_NOTIFY_DISABLED_EVT */
+
+      /* USER CODE END CUSTOM_STM_BATLVL_NOTIFY_DISABLED_EVT */
       break;
 
     default:
@@ -168,7 +183,45 @@ void Custom_APP_Init(void)
  *
  *************************************************************/
 
-/* my_custom_srv */
+/* BatteryService */
+void Custom_Batlvl_Update_Char(void) /* Property Read */
+{
+  uint8_t updateflag = 0;
+
+  /* USER CODE BEGIN Batlvl_UC_1*/
+
+  /* USER CODE END Batlvl_UC_1*/
+
+  if (updateflag != 0)
+  {
+    Custom_STM_App_Update_Char(CUSTOM_STM_BATLVL, (uint8_t *)UpdateCharData);
+  }
+
+  /* USER CODE BEGIN Batlvl_UC_Last*/
+
+  /* USER CODE END Batlvl_UC_Last*/
+  return;
+}
+
+void Custom_Batlvl_Send_Notification(void) /* Property Notification */
+{
+  uint8_t updateflag = 0;
+
+  /* USER CODE BEGIN Batlvl_NS_1*/
+
+  /* USER CODE END Batlvl_NS_1*/
+
+  if (updateflag != 0)
+  {
+    Custom_STM_App_Update_Char(CUSTOM_STM_BATLVL, (uint8_t *)NotifyCharData);
+  }
+
+  /* USER CODE BEGIN Batlvl_NS_Last*/
+
+  /* USER CODE END Batlvl_NS_Last*/
+
+  return;
+}
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTIONS*/
 

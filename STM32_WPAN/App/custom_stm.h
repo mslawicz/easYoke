@@ -34,14 +34,16 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 typedef enum
 {
-  /* my_custom_srv */
-  CUSTOM_STM_MYCHAR,
+  /* BatteryService */
+  CUSTOM_STM_BATLVL,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
 {
-  /* my_char */
-  CUSTOM_STM_MYCHAR_READ_EVT,
+  /* BatteryLevel */
+  CUSTOM_STM_BATLVL_READ_EVT,
+  CUSTOM_STM_BATLVL_NOTIFY_ENABLED_EVT,
+  CUSTOM_STM_BATLVL_NOTIFY_DISABLED_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
 } Custom_STM_Opcode_evt_t;
@@ -65,7 +67,7 @@ typedef struct
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
-extern uint8_t SizeMychar;
+extern uint8_t SizeBatlvl;
 
 /* USER CODE BEGIN EC */
 
