@@ -7,6 +7,7 @@
 
 #include "main_app_api.h"
 #include "main.h"
+#include "custom_stm.h"
 #include "custom_app.h"
 
 void mainApp()

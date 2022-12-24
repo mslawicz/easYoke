@@ -37,6 +37,7 @@ typedef struct
 {
   /* BatteryService */
   uint8_t               Batlvl_Notification_Status;
+  /* DeviceInformationService */
   /* USER CODE BEGIN CUSTOM_APP_Context_t */
 
   /* USER CODE END CUSTOM_APP_Context_t */
@@ -80,6 +81,7 @@ uint8_t NotifyCharData[247];
 /* BatteryService */
 static void Custom_Batlvl_Update_Char(void);
 static void Custom_Batlvl_Send_Notification(void);
+/* DeviceInformationService */
 
 /* USER CODE BEGIN PFP */
 
@@ -114,6 +116,13 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE BEGIN CUSTOM_STM_BATLVL_NOTIFY_DISABLED_EVT */
 
       /* USER CODE END CUSTOM_STM_BATLVL_NOTIFY_DISABLED_EVT */
+      break;
+
+    /* DeviceInformationService */
+    case CUSTOM_STM_MANUFNAME_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_MANUFNAME_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_MANUFNAME_READ_EVT */
       break;
 
     default:
@@ -168,7 +177,7 @@ void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification)
 void Custom_APP_Init(void)
 {
   /* USER CODE BEGIN CUSTOM_APP_Init */
-
+    Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)"Marcin");
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }
@@ -232,6 +241,8 @@ void Custom_Batlvl_Send_Notification(void) /* Property Notification */
 
   return;
 }
+
+/* DeviceInformationService */
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTIONS*/
 
