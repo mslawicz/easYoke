@@ -38,6 +38,7 @@ typedef enum
   CUSTOM_STM_BATLVL,
   /* DeviceInformationService */
   CUSTOM_STM_MANUFNAME,
+  CUSTOM_STM_MODNUMB,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
@@ -48,6 +49,8 @@ typedef enum
   CUSTOM_STM_BATLVL_NOTIFY_DISABLED_EVT,
   /* ManufacturerName */
   CUSTOM_STM_MANUFNAME_READ_EVT,
+  /* ModelNumber */
+  CUSTOM_STM_MODNUMB_READ_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
 } Custom_STM_Opcode_evt_t;
@@ -73,6 +76,7 @@ typedef struct
 /* Exported constants --------------------------------------------------------*/
 extern uint8_t SizeBatlvl;
 extern uint8_t SizeManufname;
+extern uint8_t SizeModnumb;
 
 /* USER CODE BEGIN EC */
 

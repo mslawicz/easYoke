@@ -61,6 +61,8 @@ void   MX_USART1_UART_Init(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define MANUFACTURER_NAME "Marcin"
+#define MODEL_NUMBER "easYoke"
 #define B1_Pin GPIO_PIN_4
 #define B1_GPIO_Port GPIOC
 #define LD2_Pin GPIO_PIN_0

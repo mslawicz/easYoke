@@ -125,6 +125,12 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE END CUSTOM_STM_MANUFNAME_READ_EVT */
       break;
 
+    case CUSTOM_STM_MODNUMB_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_MODNUMB_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_MODNUMB_READ_EVT */
+      break;
+
     default:
       /* USER CODE BEGIN CUSTOM_STM_App_Notification_default */
 
@@ -177,7 +183,8 @@ void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification)
 void Custom_APP_Init(void)
 {
   /* USER CODE BEGIN CUSTOM_APP_Init */
-    Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)"Marcin");
+    Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)MANUFACTURER_NAME);
+    Custom_STM_App_Update_Char(CUSTOM_STM_MODNUMB, (uint8_t*)MODEL_NUMBER);
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }

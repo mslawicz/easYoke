@@ -32,6 +32,7 @@ typedef struct{
   uint16_t  CustomBatlvlHdle;                  /**< BatteryLevel handle */
   uint16_t  CustomDevinfosvcHdle;                    /**< DeviceInformationService handle */
   uint16_t  CustomManufnameHdle;                  /**< ManufacturerName handle */
+  uint16_t  CustomModnumbHdle;                  /**< ModelNumber handle */
 }CustomContext_t;
 
 /* USER CODE BEGIN PTD */
@@ -63,6 +64,7 @@ typedef struct{
 /* Private variables ---------------------------------------------------------*/
 uint8_t SizeBatlvl = 1;
 uint8_t SizeManufname = 6;
+uint8_t SizeModnumb = 7;
 
 /**
  * START of Section BLE_DRIVER_CONTEXT
@@ -208,6 +210,17 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
 
             /*USER CODE END CUSTOM_STM_Service_2_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
           } /* if (read_req->Attribute_Handle == (CustomContext.CustomManufnameHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
+          else if (read_req->Attribute_Handle == (CustomContext.CustomModnumbHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
+
+            /*USER CODE END CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
+            aci_gatt_allow_read(read_req->Connection_Handle);
+            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
+
+            /*USER CODE END CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
+          } /* if (read_req->Attribute_Handle == (CustomContext.CustomModnumbHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
           /* USER CODE BEGIN EVT_BLUE_GATT_READ_PERMIT_REQ_END */
 
           /* USER CODE END EVT_BLUE_GATT_READ_PERMIT_REQ_END */
@@ -324,17 +337,18 @@ void SVCCTL_InitCustomSvc(void)
   /**
    *          DeviceInformationService
    *
-   * Max_Attribute_Records = 1 + 2*1 + 1*no_of_char_with_notify_or_indicate_property + 1*no_of_char_with_broadcast_property
+   * Max_Attribute_Records = 1 + 2*2 + 1*no_of_char_with_notify_or_indicate_property + 1*no_of_char_with_broadcast_property
    * service_max_attribute_record = 1 for DeviceInformationService +
    *                                2 for ManufacturerName +
-   *                              = 3
+   *                                2 for ModelNumber +
+   *                              = 5
    */
 
   uuid.Char_UUID_16 = 0x180a;
   ret = aci_gatt_add_service(UUID_TYPE_16,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
-                             3,
+                             5,
                              &(CustomContext.CustomDevinfosvcHdle));
   if (ret != BLE_STATUS_SUCCESS)
   {
@@ -365,6 +379,27 @@ void SVCCTL_InitCustomSvc(void)
   else
   {
     APP_DBG_MSG("  Success: aci_gatt_add_char command   : MANUFNAME \n\r");
+  }
+  /**
+   *  ModelNumber
+   */
+  uuid.Char_UUID_16 = 0x2a24;
+  ret = aci_gatt_add_char(CustomContext.CustomDevinfosvcHdle,
+                          UUID_TYPE_16, &uuid,
+                          SizeModnumb,
+                          CHAR_PROP_READ,
+                          ATTR_PERMISSION_NONE,
+                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          0x10,
+                          CHAR_VALUE_LEN_CONSTANT,
+                          &(CustomContext.CustomModnumbHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : MODNUMB, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : MODNUMB \n\r");
   }
 
   /* USER CODE BEGIN SVCCTL_InitCustomSvc_2 */
@@ -426,6 +461,25 @@ tBleStatus Custom_STM_App_Update_Char(Custom_STM_Char_Opcode_t CharOpcode, uint8
       /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_2_Char_1*/
 
       /* USER CODE END CUSTOM_STM_App_Update_Service_2_Char_1*/
+      break;
+
+    case CUSTOM_STM_MODNUMB:
+      ret = aci_gatt_update_char_value(CustomContext.CustomDevinfosvcHdle,
+                                       CustomContext.CustomModnumbHdle,
+                                       0, /* charValOffset */
+                                       SizeModnumb, /* charValueLen */
+                                       (uint8_t *)  pPayload);
+      if (ret != BLE_STATUS_SUCCESS)
+      {
+        APP_DBG_MSG("  Fail   : aci_gatt_update_char_value MODNUMB command, result : 0x%x \n\r", ret);
+      }
+      else
+      {
+        APP_DBG_MSG("  Success: aci_gatt_update_char_value MODNUMB command\n\r");
+      }
+      /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_2_Char_2*/
+
+      /* USER CODE END CUSTOM_STM_App_Update_Service_2_Char_2*/
       break;
 
     default:
