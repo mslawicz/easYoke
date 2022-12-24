@@ -131,6 +131,12 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE END CUSTOM_STM_MODNUMB_READ_EVT */
       break;
 
+    case CUSTOM_STM_PNPID_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_PNPID_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_PNPID_READ_EVT */
+      break;
+
     default:
       /* USER CODE BEGIN CUSTOM_STM_App_Notification_default */
 
@@ -183,8 +189,19 @@ void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification)
 void Custom_APP_Init(void)
 {
   /* USER CODE BEGIN CUSTOM_APP_Init */
+    const uint8_t bleDisPnpId[] =
+    {
+            VENDOR_ID_SOURCE,
+            VENDOR_ID & 0xFF,
+            (VENDOR_ID >> 8) & 0xFF,
+            PRODUCT_ID & 0xFF,
+            (PRODUCT_ID >> 8) & 0xFF,
+            PRODUCT_VERSION & 0xFF,
+            (PRODUCT_VERSION >> 8) & 0xFF
+    };
     Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)MANUFACTURER_NAME);
     Custom_STM_App_Update_Char(CUSTOM_STM_MODNUMB, (uint8_t*)MODEL_NUMBER);
+    Custom_STM_App_Update_Char(CUSTOM_STM_PNPID, (uint8_t*)&bleDisPnpId);
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }

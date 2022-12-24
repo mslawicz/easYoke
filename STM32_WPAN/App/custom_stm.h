@@ -39,6 +39,7 @@ typedef enum
   /* DeviceInformationService */
   CUSTOM_STM_MANUFNAME,
   CUSTOM_STM_MODNUMB,
+  CUSTOM_STM_PNPID,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
@@ -51,6 +52,8 @@ typedef enum
   CUSTOM_STM_MANUFNAME_READ_EVT,
   /* ModelNumber */
   CUSTOM_STM_MODNUMB_READ_EVT,
+  /* PnpId */
+  CUSTOM_STM_PNPID_READ_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
 } Custom_STM_Opcode_evt_t;
@@ -77,6 +80,7 @@ typedef struct
 extern uint8_t SizeBatlvl;
 extern uint8_t SizeManufname;
 extern uint8_t SizeModnumb;
+extern uint8_t SizePnpid;
 
 /* USER CODE BEGIN EC */
 
