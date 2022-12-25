@@ -40,8 +40,6 @@ typedef enum
   CUSTOM_STM_MANUFNAME,
   CUSTOM_STM_MODNUMB,
   CUSTOM_STM_PNPID,
-  /* HumanInterfaceDeviceService */
-  CUSTOM_STM_HIDINFO,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
@@ -56,8 +54,6 @@ typedef enum
   CUSTOM_STM_MODNUMB_READ_EVT,
   /* PnpId */
   CUSTOM_STM_PNPID_READ_EVT,
-  /* HidInformation */
-  CUSTOM_STM_HIDINFO_READ_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
 } Custom_STM_Opcode_evt_t;
@@ -85,7 +81,6 @@ extern uint8_t SizeBatlvl;
 extern uint8_t SizeManufname;
 extern uint8_t SizeModnumb;
 extern uint8_t SizePnpid;
-extern uint8_t SizeHidinfo;
 
 /* USER CODE BEGIN EC */
 
