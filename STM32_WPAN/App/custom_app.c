@@ -208,9 +208,17 @@ void Custom_APP_Init(void)
             PRODUCT_VERSION & 0xFF,
             (PRODUCT_VERSION >> 8) & 0xFF
     };
+    const uint8_t bleHidInfo[] =
+    {
+            BCDHID & 0xFF,
+            (BCDHID >> 8) & 0xFF,
+           B_COUNTRY_CODE,
+           HID_FLAGS
+    };
     Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)MANUFACTURER_NAME);
     Custom_STM_App_Update_Char(CUSTOM_STM_MODNUMB, (uint8_t*)MODEL_NUMBER);
     Custom_STM_App_Update_Char(CUSTOM_STM_PNPID, (uint8_t*)&bleDisPnpId);
+    Custom_STM_App_Update_Char(CUSTOM_STM_HIDINFO, (uint8_t*)&bleHidInfo);
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }
