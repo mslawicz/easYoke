@@ -38,6 +38,7 @@ typedef struct
   /* BatteryService */
   uint8_t               Batlvl_Notification_Status;
   /* DeviceInformationService */
+  /* HumanInterfaceDeviceService */
   /* USER CODE BEGIN CUSTOM_APP_Context_t */
 
   /* USER CODE END CUSTOM_APP_Context_t */
@@ -82,6 +83,7 @@ uint8_t NotifyCharData[247];
 static void Custom_Batlvl_Update_Char(void);
 static void Custom_Batlvl_Send_Notification(void);
 /* DeviceInformationService */
+/* HumanInterfaceDeviceService */
 
 /* USER CODE BEGIN PFP */
 
@@ -135,6 +137,13 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE BEGIN CUSTOM_STM_PNPID_READ_EVT */
 
       /* USER CODE END CUSTOM_STM_PNPID_READ_EVT */
+      break;
+
+    /* HumanInterfaceDeviceService */
+    case CUSTOM_STM_HIDINFO_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_HIDINFO_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_HIDINFO_READ_EVT */
       break;
 
     default:
@@ -267,6 +276,7 @@ void Custom_Batlvl_Send_Notification(void) /* Property Notification */
 }
 
 /* DeviceInformationService */
+/* HumanInterfaceDeviceService */
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTIONS*/
 
