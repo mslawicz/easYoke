@@ -37,6 +37,7 @@ typedef struct{
   uint16_t  CustomHidsvcHdle;                    /**< HumanInterfaceDeviceService handle */
   uint16_t  CustomHidinfoHdle;                  /**< HidInformation handle */
   uint16_t  CustomHidctrlptHdle;                  /**< HidControlPoint handle */
+  uint16_t  CustomRepmapHdle;                  /**< ReportMap handle */
 }CustomContext_t;
 
 /* USER CODE BEGIN PTD */
@@ -72,6 +73,7 @@ uint8_t SizeModnumb = 7;
 uint8_t SizePnpid = 7;
 uint8_t SizeHidinfo = 4;
 uint8_t SizeHidctrlpt = 1;
+uint8_t SizeRepmap = 1;
 
 /**
  * START of Section BLE_DRIVER_CONTEXT
@@ -258,6 +260,17 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
 
             /*USER CODE END CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
           } /* if (read_req->Attribute_Handle == (CustomContext.CustomHidinfoHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
+          else if (read_req->Attribute_Handle == (CustomContext.CustomRepmapHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
+            aci_gatt_allow_read(read_req->Connection_Handle);
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
+          } /* if (read_req->Attribute_Handle == (CustomContext.CustomRepmapHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
           /* USER CODE BEGIN EVT_BLUE_GATT_READ_PERMIT_REQ_END */
 
           /* USER CODE END EVT_BLUE_GATT_READ_PERMIT_REQ_END */
@@ -474,18 +487,19 @@ void SVCCTL_InitCustomSvc(void)
   /**
    *          HumanInterfaceDeviceService
    *
-   * Max_Attribute_Records = 1 + 2*2 + 1*no_of_char_with_notify_or_indicate_property + 1*no_of_char_with_broadcast_property
+   * Max_Attribute_Records = 1 + 2*3 + 1*no_of_char_with_notify_or_indicate_property + 1*no_of_char_with_broadcast_property
    * service_max_attribute_record = 1 for HumanInterfaceDeviceService +
    *                                2 for HidInformation +
    *                                2 for HidControlPoint +
-   *                              = 5
+   *                                2 for ReportMap +
+   *                              = 7
    */
 
   uuid.Char_UUID_16 = 0x1812;
   ret = aci_gatt_add_service(UUID_TYPE_16,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
-                             5,
+                             7,
                              &(CustomContext.CustomHidsvcHdle));
   if (ret != BLE_STATUS_SUCCESS)
   {
@@ -537,6 +551,27 @@ void SVCCTL_InitCustomSvc(void)
   else
   {
     APP_DBG_MSG("  Success: aci_gatt_add_char command   : HIDCTRLPT \n\r");
+  }
+  /**
+   *  ReportMap
+   */
+  uuid.Char_UUID_16 = 0x2a4b;
+  ret = aci_gatt_add_char(CustomContext.CustomHidsvcHdle,
+                          UUID_TYPE_16, &uuid,
+                          SizeRepmap,
+                          CHAR_PROP_READ,
+                          ATTR_PERMISSION_NONE,
+                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          0x10,
+                          CHAR_VALUE_LEN_VARIABLE,
+                          &(CustomContext.CustomRepmapHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : REPMAP, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : REPMAP \n\r");
   }
 
   /* USER CODE BEGIN SVCCTL_InitCustomSvc_2 */
@@ -674,6 +709,25 @@ tBleStatus Custom_STM_App_Update_Char(Custom_STM_Char_Opcode_t CharOpcode, uint8
       /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_3_Char_2*/
 
       /* USER CODE END CUSTOM_STM_App_Update_Service_3_Char_2*/
+      break;
+
+    case CUSTOM_STM_REPMAP:
+      ret = aci_gatt_update_char_value(CustomContext.CustomHidsvcHdle,
+                                       CustomContext.CustomRepmapHdle,
+                                       0, /* charValOffset */
+                                       SizeRepmap, /* charValueLen */
+                                       (uint8_t *)  pPayload);
+      if (ret != BLE_STATUS_SUCCESS)
+      {
+        APP_DBG_MSG("  Fail   : aci_gatt_update_char_value REPMAP command, result : 0x%x \n\r", ret);
+      }
+      else
+      {
+        APP_DBG_MSG("  Success: aci_gatt_update_char_value REPMAP command\n\r");
+      }
+      /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_3_Char_3*/
+
+      /* USER CODE END CUSTOM_STM_App_Update_Service_3_Char_3*/
       break;
 
     default:

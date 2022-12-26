@@ -75,7 +75,60 @@ uint8_t UpdateCharData[247];
 uint8_t NotifyCharData[247];
 
 /* USER CODE BEGIN PV */
+const uint8_t bleDisPnpId[] =
+{
+        VENDOR_ID_SOURCE,
+        VENDOR_ID & 0xFF,
+        (VENDOR_ID >> 8) & 0xFF,
+        PRODUCT_ID & 0xFF,
+        (PRODUCT_ID >> 8) & 0xFF,
+        PRODUCT_VERSION & 0xFF,
+        (PRODUCT_VERSION >> 8) & 0xFF
+};
 
+const uint8_t bleHidInfo[] =
+{
+        BCDHID & 0xFF,
+        (BCDHID >> 8) & 0xFF,
+       B_COUNTRY_CODE,
+       HID_FLAGS
+};
+
+const uint8_t GamepadReportMap[] =
+{
+    0x05,0x01,        //USAGE_PAGE (Generic Desktop)
+    0x09,0x05,        //USAGE (Game Pad)
+    0xA1,0x01,        //COLLECTION (Application)
+        0x05,0x02,            //USAGE_PAGE (Simulation Controls)
+        0x09,0xBB,            //USAGE (Throttle)
+        0x15,0x81,            //LOGICAL_MINIMUM (-127)
+        0x25,0x7F,            //LOGICAL_MAXIMUM (127)
+        0x75,0x08,            //REPORT_SIZE (8)
+        0x95,0x01,            //REPORT_COUNT (1)
+        0x81,0x02,            //INPUT(Data, Var, Abs)
+        0x05,0x01,            //USAGE_PAGE (Generic Desktop)
+        0x09,0x01,            //USAGE (Pointer)
+        0xA1,0x00,            //COLLECTION (Physical)
+            0x09,0x30,                //USAGE (X)
+            0x09,0x31,                //USAGE (Y)
+            0x95,0x02,                //REPORT_COUNT (2)
+            0x81,0x02,                //INPUT (Data, Var, Abs)
+        0xC0,                 //END_COLLECTION
+        0x05,0x09,            //USAGE_PAGE (Button)
+        0x19,0x01,            //USAGE_MINIMUM (Button 1)
+        0x29,0x04,            //USAGE_MAXIMUM (Button 4)
+        0x15,0x00,            //LOGICAL_MINIMUM (0)
+        0x25,0x01,            //LOGICAL_MAXIMUM (1)
+        0x75,0x01,            //REPORT_SIZE (1)
+        0x95,0x04,            //REPORT_COUNT (4)
+        0x55,0x00,            //UNIT_EXPONENT (0)
+        0x65,0x00,            //UNIT (None)
+        0x81,0x02,            //INPUT (Data, Var, Abs)
+        0x75,0x04,            //REPORT_SIZE (4)
+        0x95,0x01,            //REPORT_COUNT (1)
+        0x81,0x03,            //INPUT (Const, Var, Abs)
+    0xC0              //END_COLLECTION
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -152,6 +205,12 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE END CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT */
       break;
 
+    case CUSTOM_STM_REPMAP_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_REPMAP_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_REPMAP_READ_EVT */
+      break;
+
     default:
       /* USER CODE BEGIN CUSTOM_STM_App_Notification_default */
 
@@ -204,27 +263,12 @@ void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification)
 void Custom_APP_Init(void)
 {
   /* USER CODE BEGIN CUSTOM_APP_Init */
-    const uint8_t bleDisPnpId[] =
-    {
-            VENDOR_ID_SOURCE,
-            VENDOR_ID & 0xFF,
-            (VENDOR_ID >> 8) & 0xFF,
-            PRODUCT_ID & 0xFF,
-            (PRODUCT_ID >> 8) & 0xFF,
-            PRODUCT_VERSION & 0xFF,
-            (PRODUCT_VERSION >> 8) & 0xFF
-    };
-    const uint8_t bleHidInfo[] =
-    {
-            BCDHID & 0xFF,
-            (BCDHID >> 8) & 0xFF,
-           B_COUNTRY_CODE,
-           HID_FLAGS
-    };
     Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)MANUFACTURER_NAME);
     Custom_STM_App_Update_Char(CUSTOM_STM_MODNUMB, (uint8_t*)MODEL_NUMBER);
     Custom_STM_App_Update_Char(CUSTOM_STM_PNPID, (uint8_t*)&bleDisPnpId);
     Custom_STM_App_Update_Char(CUSTOM_STM_HIDINFO, (uint8_t*)&bleHidInfo);
+    SizeRepmap = (uint8_t)sizeof(GamepadReportMap);
+    Custom_STM_App_Update_Char(CUSTOM_STM_REPMAP, (uint8_t*)GamepadReportMap);
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }

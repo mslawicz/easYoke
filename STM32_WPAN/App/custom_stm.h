@@ -43,6 +43,7 @@ typedef enum
   /* HumanInterfaceDeviceService */
   CUSTOM_STM_HIDINFO,
   CUSTOM_STM_HIDCTRLPT,
+  CUSTOM_STM_REPMAP,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
@@ -61,6 +62,8 @@ typedef enum
   CUSTOM_STM_HIDINFO_READ_EVT,
   /* HidControlPoint */
   CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT,
+  /* ReportMap */
+  CUSTOM_STM_REPMAP_READ_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
 } Custom_STM_Opcode_evt_t;
@@ -90,6 +93,7 @@ extern uint8_t SizeModnumb;
 extern uint8_t SizePnpid;
 extern uint8_t SizeHidinfo;
 extern uint8_t SizeHidctrlpt;
+extern uint8_t SizeRepmap;
 
 /* USER CODE BEGIN EC */
 
