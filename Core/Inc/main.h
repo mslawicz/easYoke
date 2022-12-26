@@ -61,15 +61,15 @@ void   MX_USART1_UART_Init(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define BCDHID 0x0001
 #define MODEL_NUMBER "easYoke"
+#define B_COUNTRY_CODE 0
 #define VENDOR_ID_SOURCE 0x02
 #define MANUFACTURER_NAME "Marcin"
 #define PRODUCT_ID 0x0001
+#define HID_FLAGS 0x02
 #define VENDOR_ID 0x0030
 #define PRODUCT_VERSION 0x0001
-#define BCDHID 0x0111
-#define B_COUNTRY_CODE 0
-#define HID_FLAGS 0x02
 #define B1_Pin GPIO_PIN_4
 #define B1_GPIO_Port GPIOC
 #define LD2_Pin GPIO_PIN_0
