@@ -300,7 +300,7 @@ void Custom_APP_Init(void)
     SizeRepmap = (uint8_t)sizeof(GamepadReportMap);
     Custom_STM_App_Update_Char(CUSTOM_STM_REPMAP, (uint8_t*)GamepadReportMap);
     SizeGamerep = GAMEPAD_REPORT_SIZE;
-    Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, (uint8_t*)gamepadReport);
+    Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, gamepadReport);
     value = PROTOCOL_MODE_REPORT;
     Custom_STM_App_Update_Char(CUSTOM_STM_PROTMOD, &value);
   /* USER CODE END CUSTOM_APP_Init */
