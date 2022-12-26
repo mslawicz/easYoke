@@ -234,6 +234,12 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE END CUSTOM_STM_GAMEREP_NOTIFY_DISABLED_EVT */
       break;
 
+    case CUSTOM_STM_PROTMOD_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_PROTMOD_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_PROTMOD_READ_EVT */
+      break;
+
     default:
       /* USER CODE BEGIN CUSTOM_STM_App_Notification_default */
 
@@ -286,14 +292,17 @@ void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification)
 void Custom_APP_Init(void)
 {
   /* USER CODE BEGIN CUSTOM_APP_Init */
+    uint8_t value;
     Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)MANUFACTURER_NAME);
     Custom_STM_App_Update_Char(CUSTOM_STM_MODNUMB, (uint8_t*)MODEL_NUMBER);
-    Custom_STM_App_Update_Char(CUSTOM_STM_PNPID, (uint8_t*)&bleDisPnpId);
-    Custom_STM_App_Update_Char(CUSTOM_STM_HIDINFO, (uint8_t*)&bleHidInfo);
+    Custom_STM_App_Update_Char(CUSTOM_STM_PNPID, (uint8_t*)bleDisPnpId);
+    Custom_STM_App_Update_Char(CUSTOM_STM_HIDINFO, (uint8_t*)bleHidInfo);
     SizeRepmap = (uint8_t)sizeof(GamepadReportMap);
     Custom_STM_App_Update_Char(CUSTOM_STM_REPMAP, (uint8_t*)GamepadReportMap);
     SizeGamerep = GAMEPAD_REPORT_SIZE;
     Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, (uint8_t*)gamepadReport);
+    value = PROTOCOL_MODE_REPORT;
+    Custom_STM_App_Update_Char(CUSTOM_STM_PROTMOD, &value);
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }

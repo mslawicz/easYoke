@@ -71,6 +71,7 @@ void   MX_USART1_UART_Init(void);
 #define VENDOR_ID 0x0030
 #define PRODUCT_VERSION 0x0001
 #define GAMEPAD_REPORT_SIZE 4
+#define PROTOCOL_MODE_REPORT 0x01
 #define B1_Pin GPIO_PIN_4
 #define B1_GPIO_Port GPIOC
 #define LD2_Pin GPIO_PIN_0
