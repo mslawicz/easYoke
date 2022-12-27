@@ -56,7 +56,10 @@ typedef struct
 
 /* External variables --------------------------------------------------------*/
 /* USER CODE BEGIN EV */
-
+extern const uint8_t bleDisPnpId[];
+extern const uint8_t bleHidInfo[];
+extern const uint8_t GamepadReportMap[];
+extern uint8_t gamepadReport[GAMEPAD_REPORT_SIZE];
 /* USER CODE END EV */
 
 /* Exported macros ------------------------------------------------------------*/
