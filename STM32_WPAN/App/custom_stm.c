@@ -122,6 +122,7 @@ do {\
  D973F2E1-B19E-11E2-9E96-0800200C9A66: Characteristic_1 128bits UUID
  D973F2E2-B19E-11E2-9E96-0800200C9A66: Characteristic_2 128bits UUID
  */
+#define COPY_HUMANINTERFACEDEVICESERVICE_UUID(uuid_struct)          COPY_UUID_128(uuid_struct,0x00,0x00,0x18,0x12,0xcc,0x7a,0x48,0x2a,0x98,0x4a,0x7f,0x2e,0xd5,0xb3,0xe5,0x8f)
 
 /* USER CODE BEGIN PF */
 
@@ -568,8 +569,8 @@ void SVCCTL_InitCustomSvc(void)
    *                              = 12
    */
 
-  uuid.Char_UUID_16 = 0x1812;
-  ret = aci_gatt_add_service(UUID_TYPE_16,
+  COPY_HUMANINTERFACEDEVICESERVICE_UUID(uuid.Char_UUID_128);
+  ret = aci_gatt_add_service(UUID_TYPE_128,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
                              12,
@@ -636,7 +637,7 @@ void SVCCTL_InitCustomSvc(void)
                           ATTR_PERMISSION_NONE,
                           GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
                           0x10,
-                          CHAR_VALUE_LEN_VARIABLE,
+                          CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomRepmapHdle));
   if (ret != BLE_STATUS_SUCCESS)
   {
@@ -657,7 +658,7 @@ void SVCCTL_InitCustomSvc(void)
                           ATTR_PERMISSION_NONE,
                           GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
                           0x10,
-                          CHAR_VALUE_LEN_VARIABLE,
+                          CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomGamerepHdle));
   if (ret != BLE_STATUS_SUCCESS)
   {
