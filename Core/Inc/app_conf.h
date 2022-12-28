@@ -74,7 +74,7 @@
  */
 #define CFG_BONDING_MODE                 (1)
 #define CFG_FIXED_PIN                    (123456)
-#define CFG_USED_FIXED_PIN               (0)
+#define CFG_USED_FIXED_PIN               (1)
 #define CFG_ENCRYPTION_KEY_SIZE_MAX      (16)
 #define CFG_ENCRYPTION_KEY_SIZE_MIN      (8)
 
@@ -112,7 +112,7 @@
 #define CFG_KEYPRESS_NOT_SUPPORTED            (0x00)
 #define CFG_KEYPRESS_SUPPORTED                (0x01)
 
-#define CFG_KEYPRESS_NOTIFICATION_SUPPORT     CFG_KEYPRESS_NOT_SUPPORTED
+#define CFG_KEYPRESS_NOTIFICATION_SUPPORT     CFG_KEYPRESS_SUPPORTED
 
 /**
  * Numeric Comparison Answers
