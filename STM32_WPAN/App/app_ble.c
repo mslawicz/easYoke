@@ -322,8 +322,8 @@ void APP_BLE_Init(void)
   tBleStatus ret = BLE_STATUS_INVALID_PARAMS;
 #endif /* RADIO_ACTIVITY_EVENT != 0 */
   /* USER CODE BEGIN APP_BLE_Init_1 */
-  SizeRepmap = (uint8_t)sizeof(GamepadReportMap);
-  SizeGamerep = GAMEPAD_REPORT_SIZE;
+  //XXX SizeRepmap = (uint8_t)sizeof(GamepadReportMap);
+  //SXXX izeGamerep = GAMEPAD_REPORT_SIZE;
   /* USER CODE END APP_BLE_Init_1 */
   SHCI_C2_Ble_Init_Cmd_Packet_t ble_init_cmd_packet =
   {

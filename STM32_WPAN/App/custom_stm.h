@@ -40,12 +40,6 @@ typedef enum
   CUSTOM_STM_MANUFNAME,
   CUSTOM_STM_MODNUMB,
   CUSTOM_STM_PNPID,
-  /* HumanInterfaceDeviceService */
-  CUSTOM_STM_HIDINFO,
-  CUSTOM_STM_HIDCTRLPT,
-  CUSTOM_STM_REPMAP,
-  CUSTOM_STM_GAMEREP,
-  CUSTOM_STM_PROTMOD,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
@@ -60,18 +54,6 @@ typedef enum
   CUSTOM_STM_MODNUMB_READ_EVT,
   /* PnpId */
   CUSTOM_STM_PNPID_READ_EVT,
-  /* HidInformation */
-  CUSTOM_STM_HIDINFO_READ_EVT,
-  /* HidControlPoint */
-  CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT,
-  /* ReportMap */
-  CUSTOM_STM_REPMAP_READ_EVT,
-  /* GamepadReport */
-  CUSTOM_STM_GAMEREP_READ_EVT,
-  CUSTOM_STM_GAMEREP_NOTIFY_ENABLED_EVT,
-  CUSTOM_STM_GAMEREP_NOTIFY_DISABLED_EVT,
-  /* ProtocolMode */
-  CUSTOM_STM_PROTMOD_READ_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
 } Custom_STM_Opcode_evt_t;
@@ -99,11 +81,6 @@ extern uint8_t SizeBatlvl;
 extern uint8_t SizeManufname;
 extern uint8_t SizeModnumb;
 extern uint8_t SizePnpid;
-extern uint8_t SizeHidinfo;
-extern uint8_t SizeHidctrlpt;
-extern uint8_t SizeRepmap;
-extern uint8_t SizeGamerep;
-extern uint8_t SizeProtmod;
 
 /* USER CODE BEGIN EC */
 

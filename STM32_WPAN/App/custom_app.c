@@ -38,8 +38,6 @@ typedef struct
   /* BatteryService */
   uint8_t               Batlvl_Notification_Status;
   /* DeviceInformationService */
-  /* HumanInterfaceDeviceService */
-  uint8_t               Gamerep_Notification_Status;
   /* USER CODE BEGIN CUSTOM_APP_Context_t */
 
   /* USER CODE END CUSTOM_APP_Context_t */
@@ -84,9 +82,6 @@ uint8_t NotifyCharData[247];
 static void Custom_Batlvl_Update_Char(void);
 static void Custom_Batlvl_Send_Notification(void);
 /* DeviceInformationService */
-/* HumanInterfaceDeviceService */
-static void Custom_Gamerep_Update_Char(void);
-static void Custom_Gamerep_Send_Notification(void);
 
 /* USER CODE BEGIN PFP */
 
@@ -140,49 +135,6 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE BEGIN CUSTOM_STM_PNPID_READ_EVT */
 
       /* USER CODE END CUSTOM_STM_PNPID_READ_EVT */
-      break;
-
-    /* HumanInterfaceDeviceService */
-    case CUSTOM_STM_HIDINFO_READ_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_HIDINFO_READ_EVT */
-
-      /* USER CODE END CUSTOM_STM_HIDINFO_READ_EVT */
-      break;
-
-    case CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT */
-
-      /* USER CODE END CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT */
-      break;
-
-    case CUSTOM_STM_REPMAP_READ_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_REPMAP_READ_EVT */
-
-      /* USER CODE END CUSTOM_STM_REPMAP_READ_EVT */
-      break;
-
-    case CUSTOM_STM_GAMEREP_READ_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_GAMEREP_READ_EVT */
-
-      /* USER CODE END CUSTOM_STM_GAMEREP_READ_EVT */
-      break;
-
-    case CUSTOM_STM_GAMEREP_NOTIFY_ENABLED_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_GAMEREP_NOTIFY_ENABLED_EVT */
-
-      /* USER CODE END CUSTOM_STM_GAMEREP_NOTIFY_ENABLED_EVT */
-      break;
-
-    case CUSTOM_STM_GAMEREP_NOTIFY_DISABLED_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_GAMEREP_NOTIFY_DISABLED_EVT */
-
-      /* USER CODE END CUSTOM_STM_GAMEREP_NOTIFY_DISABLED_EVT */
-      break;
-
-    case CUSTOM_STM_PROTMOD_READ_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_PROTMOD_READ_EVT */
-
-      /* USER CODE END CUSTOM_STM_PROTMOD_READ_EVT */
       break;
 
     default:
@@ -241,11 +193,11 @@ void Custom_APP_Init(void)
     Custom_STM_App_Update_Char(CUSTOM_STM_MANUFNAME, (uint8_t*)MANUFACTURER_NAME);
     Custom_STM_App_Update_Char(CUSTOM_STM_MODNUMB, (uint8_t*)MODEL_NUMBER);
     Custom_STM_App_Update_Char(CUSTOM_STM_PNPID, (uint8_t*)bleDisPnpId);
-    Custom_STM_App_Update_Char(CUSTOM_STM_HIDINFO, (uint8_t*)bleHidInfo);
-    Custom_STM_App_Update_Char(CUSTOM_STM_REPMAP, (uint8_t*)GamepadReportMap);
-    Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, gamepadReport);
+    //XXX Custom_STM_App_Update_Char(CUSTOM_STM_HIDINFO, (uint8_t*)bleHidInfo);
+    //XXX Custom_STM_App_Update_Char(CUSTOM_STM_REPMAP, (uint8_t*)GamepadReportMap);
+    //XXX Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, gamepadReport);
     value = PROTOCOL_MODE_REPORT;
-    Custom_STM_App_Update_Char(CUSTOM_STM_PROTMOD, &value);
+    //XXX Custom_STM_App_Update_Char(CUSTOM_STM_PROTMOD, &value);
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }
@@ -266,13 +218,13 @@ void notifyBatteryLevel(uint8_t value)
 void updateGamepadReport()
 {
     memcpy(UpdateCharData, gamepadReport, GAMEPAD_REPORT_SIZE);
-    Custom_Gamerep_Update_Char();
+    //XXX Custom_Gamerep_Update_Char();
 }
 
 void notifyGamepadReport()
 {
     memcpy(NotifyCharData, gamepadReport, GAMEPAD_REPORT_SIZE);
-    Custom_Gamerep_Send_Notification();
+    //XXX Custom_Gamerep_Send_Notification();
 }
 /* USER CODE END FD */
 
@@ -323,45 +275,6 @@ void Custom_Batlvl_Send_Notification(void) /* Property Notification */
 }
 
 /* DeviceInformationService */
-/* HumanInterfaceDeviceService */
-void Custom_Gamerep_Update_Char(void) /* Property Read */
-{
-  uint8_t updateflag = 0;
-
-  /* USER CODE BEGIN Gamerep_UC_1*/
-  updateflag = 1;
-  /* USER CODE END Gamerep_UC_1*/
-
-  if (updateflag != 0)
-  {
-    Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, (uint8_t *)UpdateCharData);
-  }
-
-  /* USER CODE BEGIN Gamerep_UC_Last*/
-
-  /* USER CODE END Gamerep_UC_Last*/
-  return;
-}
-
-void Custom_Gamerep_Send_Notification(void) /* Property Notification */
-{
-  uint8_t updateflag = 0;
-
-  /* USER CODE BEGIN Gamerep_NS_1*/
-  updateflag = 1;
-  /* USER CODE END Gamerep_NS_1*/
-
-  if (updateflag != 0)
-  {
-    Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, (uint8_t *)NotifyCharData);
-  }
-
-  /* USER CODE BEGIN Gamerep_NS_Last*/
-
-  /* USER CODE END Gamerep_NS_Last*/
-
-  return;
-}
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTIONS*/
 
