@@ -329,7 +329,7 @@ void Custom_Gamerep_Update_Char(void) /* Property Read */
   uint8_t updateflag = 0;
 
   /* USER CODE BEGIN Gamerep_UC_1*/
-
+  updateflag = 1;
   /* USER CODE END Gamerep_UC_1*/
 
   if (updateflag != 0)
@@ -348,7 +348,7 @@ void Custom_Gamerep_Send_Notification(void) /* Property Notification */
   uint8_t updateflag = 0;
 
   /* USER CODE BEGIN Gamerep_NS_1*/
-
+  updateflag = 1;
   /* USER CODE END Gamerep_NS_1*/
 
   if (updateflag != 0)
