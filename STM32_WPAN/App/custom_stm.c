@@ -34,6 +34,12 @@ typedef struct{
   uint16_t  CustomManufnameHdle;                  /**< ManufacturerName handle */
   uint16_t  CustomModnumbHdle;                  /**< ModelNumber handle */
   uint16_t  CustomPnpidHdle;                  /**< PnpId handle */
+  uint16_t  CustomHidsvcHdle;                    /**< HumanInterfaceDeviceService handle */
+  uint16_t  CustomHidinfoHdle;                  /**< HidInformation handle */
+  uint16_t  CustomHidctrlptHdle;                  /**< HidControlPoint handle */
+  uint16_t  CustomRepmapHdle;                  /**< ReportMap handle */
+  uint16_t  CustomGamerepHdle;                  /**< GamepadReport handle */
+  uint16_t  CustomProtmodHdle;                  /**< ProtocolMode handle */
 }CustomContext_t;
 
 /* USER CODE BEGIN PTD */
@@ -67,6 +73,11 @@ uint8_t SizeBatlvl = 1;
 uint8_t SizeManufname = 6;
 uint8_t SizeModnumb = 7;
 uint8_t SizePnpid = 7;
+uint8_t SizeHidinfo = 4;
+uint8_t SizeHidctrlpt = 1;
+uint8_t SizeRepmap = 1;
+uint8_t SizeGamerep = 1;
+uint8_t SizeProtmod = 1;
 
 /**
  * START of Section BLE_DRIVER_CONTEXT
@@ -127,6 +138,7 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
   hci_event_pckt *event_pckt;
   evt_blecore_aci *blecore_evt;
   aci_gatt_attribute_modified_event_rp0 *attribute_modified;
+  aci_gatt_write_permit_req_event_rp0   *write_perm_req;
   aci_gatt_read_permit_req_event_rp0    *read_req;
   Custom_STM_App_Notification_evt_t     Notification;
   /* USER CODE BEGIN Custom_STM_Event_Handler_1 */
@@ -191,6 +203,57 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
             }
           }  /* if (attribute_modified->Attr_Handle == (CustomContext.CustomBatlvlHdle + CHARACTERISTIC_DESCRIPTOR_ATTRIBUTE_OFFSET))*/
 
+          else if (attribute_modified->Attr_Handle == (CustomContext.CustomGamerepHdle + CHARACTERISTIC_DESCRIPTOR_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_4 */
+
+            /* USER CODE END CUSTOM_STM_Service_3_Char_4 */
+            switch (attribute_modified->Attr_Data[0])
+            {
+              /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_attribute_modified */
+
+              /* USER CODE END CUSTOM_STM_Service_3_Char_4_attribute_modified */
+
+              /* Disabled Notification management */
+              case (!(COMSVC_Notification)):
+                /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_Disabled_BEGIN */
+
+                /* USER CODE END CUSTOM_STM_Service_3_Char_4_Disabled_BEGIN */
+                Notification.Custom_Evt_Opcode = CUSTOM_STM_GAMEREP_NOTIFY_DISABLED_EVT;
+                Custom_STM_App_Notification(&Notification);
+                /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_Disabled_END */
+
+                /* USER CODE END CUSTOM_STM_Service_3_Char_4_Disabled_END */
+                break;
+
+              /* Enabled Notification management */
+              case COMSVC_Notification:
+                /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_COMSVC_Notification_BEGIN */
+
+                /* USER CODE END CUSTOM_STM_Service_3_Char_4_COMSVC_Notification_BEGIN */
+                Notification.Custom_Evt_Opcode = CUSTOM_STM_GAMEREP_NOTIFY_ENABLED_EVT;
+                Custom_STM_App_Notification(&Notification);
+                /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_COMSVC_Notification_END */
+
+                /* USER CODE END CUSTOM_STM_Service_3_Char_4_COMSVC_Notification_END */
+                break;
+
+              default:
+                /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_default */
+
+                /* USER CODE END CUSTOM_STM_Service_3_Char_4_default */
+              break;
+            }
+          }  /* if (attribute_modified->Attr_Handle == (CustomContext.CustomGamerepHdle + CHARACTERISTIC_DESCRIPTOR_ATTRIBUTE_OFFSET))*/
+
+          else if (attribute_modified->Attr_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_2_ACI_GATT_ATTRIBUTE_MODIFIED_VSEVT_CODE */
+
+            /* USER CODE END CUSTOM_STM_Service_3_Char_2_ACI_GATT_ATTRIBUTE_MODIFIED_VSEVT_CODE */
+          } /* if (attribute_modified->Attr_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
           /* USER CODE BEGIN EVT_BLUE_GATT_ATTRIBUTE_MODIFIED_END */
 
           /* USER CODE END EVT_BLUE_GATT_ATTRIBUTE_MODIFIED_END */
@@ -234,6 +297,50 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
 
             /*USER CODE END CUSTOM_STM_Service_2_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
           } /* if (read_req->Attribute_Handle == (CustomContext.CustomPnpidHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
+          else if (read_req->Attribute_Handle == (CustomContext.CustomHidinfoHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
+            aci_gatt_allow_read(read_req->Connection_Handle);
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
+          } /* if (read_req->Attribute_Handle == (CustomContext.CustomHidinfoHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
+          else if (read_req->Attribute_Handle == (CustomContext.CustomRepmapHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
+            aci_gatt_allow_read(read_req->Connection_Handle);
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
+          } /* if (read_req->Attribute_Handle == (CustomContext.CustomRepmapHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
+          else if (read_req->Attribute_Handle == (CustomContext.CustomGamerepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
+            aci_gatt_allow_read(read_req->Connection_Handle);
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
+          } /* if (read_req->Attribute_Handle == (CustomContext.CustomGamerepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
+          else if (read_req->Attribute_Handle == (CustomContext.CustomProtmodHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
+            aci_gatt_allow_read(read_req->Connection_Handle);
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
+          } /* if (read_req->Attribute_Handle == (CustomContext.CustomProtmodHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
           /* USER CODE BEGIN EVT_BLUE_GATT_READ_PERMIT_REQ_END */
 
           /* USER CODE END EVT_BLUE_GATT_READ_PERMIT_REQ_END */
@@ -243,6 +350,16 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
           /* USER CODE BEGIN EVT_BLUE_GATT_WRITE_PERMIT_REQ_BEGIN */
 
           /* USER CODE END EVT_BLUE_GATT_WRITE_PERMIT_REQ_BEGIN */
+          write_perm_req = (aci_gatt_write_permit_req_event_rp0*)blecore_evt->data;
+          if (write_perm_req->Attribute_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
+          {
+            return_value = SVCCTL_EvtAckFlowEnable;
+            /* Allow or reject a write request from a client using aci_gatt_write_resp(...) function */
+            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_2_ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE */
+
+            /*USER CODE END CUSTOM_STM_Service_3_Char_2_ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE*/
+          } /*if (write_perm_req->Attribute_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
+
           /* USER CODE BEGIN EVT_BLUE_GATT_WRITE_PERMIT_REQ_END */
 
           /* USER CODE END EVT_BLUE_GATT_WRITE_PERMIT_REQ_END */
@@ -437,6 +554,141 @@ void SVCCTL_InitCustomSvc(void)
     APP_DBG_MSG("  Success: aci_gatt_add_char command   : PNPID \n\r");
   }
 
+  /**
+   *          HumanInterfaceDeviceService
+   *
+   * Max_Attribute_Records = 1 + 2*5 + 1*no_of_char_with_notify_or_indicate_property + 1*no_of_char_with_broadcast_property
+   * service_max_attribute_record = 1 for HumanInterfaceDeviceService +
+   *                                2 for HidInformation +
+   *                                2 for HidControlPoint +
+   *                                2 for ReportMap +
+   *                                2 for GamepadReport +
+   *                                2 for ProtocolMode +
+   *                                1 for GamepadReport configuration descriptor +
+   *                              = 12
+   */
+
+  uuid.Char_UUID_16 = 0x1812;
+  ret = aci_gatt_add_service(UUID_TYPE_16,
+                             (Service_UUID_t *) &uuid,
+                             SECONDARY_SERVICE,
+                             12,
+                             &(CustomContext.CustomHidsvcHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_service command: HIDSVC, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_service command: HIDSVC \n\r");
+  }
+
+  /**
+   *  HidInformation
+   */
+  uuid.Char_UUID_16 = 0x2a4a;
+  ret = aci_gatt_add_char(CustomContext.CustomHidsvcHdle,
+                          UUID_TYPE_16, &uuid,
+                          SizeHidinfo,
+                          CHAR_PROP_READ,
+                          ATTR_PERMISSION_NONE,
+                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          0x10,
+                          CHAR_VALUE_LEN_CONSTANT,
+                          &(CustomContext.CustomHidinfoHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : HIDINFO, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : HIDINFO \n\r");
+  }
+  /**
+   *  HidControlPoint
+   */
+  uuid.Char_UUID_16 = 0x2a4c;
+  ret = aci_gatt_add_char(CustomContext.CustomHidsvcHdle,
+                          UUID_TYPE_16, &uuid,
+                          SizeHidctrlpt,
+                          CHAR_PROP_WRITE_WITHOUT_RESP,
+                          ATTR_PERMISSION_NONE,
+                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          0x10,
+                          CHAR_VALUE_LEN_CONSTANT,
+                          &(CustomContext.CustomHidctrlptHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : HIDCTRLPT, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : HIDCTRLPT \n\r");
+  }
+  /**
+   *  ReportMap
+   */
+  uuid.Char_UUID_16 = 0x2a4b;
+  ret = aci_gatt_add_char(CustomContext.CustomHidsvcHdle,
+                          UUID_TYPE_16, &uuid,
+                          SizeRepmap,
+                          CHAR_PROP_READ,
+                          ATTR_PERMISSION_NONE,
+                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          0x10,
+                          CHAR_VALUE_LEN_CONSTANT,
+                          &(CustomContext.CustomRepmapHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : REPMAP, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : REPMAP \n\r");
+  }
+  /**
+   *  GamepadReport
+   */
+  uuid.Char_UUID_16 = 0x2a4d;
+  ret = aci_gatt_add_char(CustomContext.CustomHidsvcHdle,
+                          UUID_TYPE_16, &uuid,
+                          SizeGamerep,
+                          CHAR_PROP_READ | CHAR_PROP_NOTIFY,
+                          ATTR_PERMISSION_NONE,
+                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          0x10,
+                          CHAR_VALUE_LEN_CONSTANT,
+                          &(CustomContext.CustomGamerepHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : GAMEREP, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : GAMEREP \n\r");
+  }
+  /**
+   *  ProtocolMode
+   */
+  uuid.Char_UUID_16 = 0x2a4e;
+  ret = aci_gatt_add_char(CustomContext.CustomHidsvcHdle,
+                          UUID_TYPE_16, &uuid,
+                          SizeProtmod,
+                          CHAR_PROP_READ,
+                          ATTR_PERMISSION_NONE,
+                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          0x10,
+                          CHAR_VALUE_LEN_CONSTANT,
+                          &(CustomContext.CustomProtmodHdle));
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : PROTMOD, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : PROTMOD \n\r");
+  }
+
   /* USER CODE BEGIN SVCCTL_InitCustomSvc_2 */
 
   /* USER CODE END SVCCTL_InitCustomSvc_2 */
@@ -534,6 +786,101 @@ tBleStatus Custom_STM_App_Update_Char(Custom_STM_Char_Opcode_t CharOpcode, uint8
       /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_2_Char_3*/
 
       /* USER CODE END CUSTOM_STM_App_Update_Service_2_Char_3*/
+      break;
+
+    case CUSTOM_STM_HIDINFO:
+      ret = aci_gatt_update_char_value(CustomContext.CustomHidsvcHdle,
+                                       CustomContext.CustomHidinfoHdle,
+                                       0, /* charValOffset */
+                                       SizeHidinfo, /* charValueLen */
+                                       (uint8_t *)  pPayload);
+      if (ret != BLE_STATUS_SUCCESS)
+      {
+        APP_DBG_MSG("  Fail   : aci_gatt_update_char_value HIDINFO command, result : 0x%x \n\r", ret);
+      }
+      else
+      {
+        APP_DBG_MSG("  Success: aci_gatt_update_char_value HIDINFO command\n\r");
+      }
+      /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_3_Char_1*/
+
+      /* USER CODE END CUSTOM_STM_App_Update_Service_3_Char_1*/
+      break;
+
+    case CUSTOM_STM_HIDCTRLPT:
+      ret = aci_gatt_update_char_value(CustomContext.CustomHidsvcHdle,
+                                       CustomContext.CustomHidctrlptHdle,
+                                       0, /* charValOffset */
+                                       SizeHidctrlpt, /* charValueLen */
+                                       (uint8_t *)  pPayload);
+      if (ret != BLE_STATUS_SUCCESS)
+      {
+        APP_DBG_MSG("  Fail   : aci_gatt_update_char_value HIDCTRLPT command, result : 0x%x \n\r", ret);
+      }
+      else
+      {
+        APP_DBG_MSG("  Success: aci_gatt_update_char_value HIDCTRLPT command\n\r");
+      }
+      /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_3_Char_2*/
+
+      /* USER CODE END CUSTOM_STM_App_Update_Service_3_Char_2*/
+      break;
+
+    case CUSTOM_STM_REPMAP:
+      ret = aci_gatt_update_char_value(CustomContext.CustomHidsvcHdle,
+                                       CustomContext.CustomRepmapHdle,
+                                       0, /* charValOffset */
+                                       SizeRepmap, /* charValueLen */
+                                       (uint8_t *)  pPayload);
+      if (ret != BLE_STATUS_SUCCESS)
+      {
+        APP_DBG_MSG("  Fail   : aci_gatt_update_char_value REPMAP command, result : 0x%x \n\r", ret);
+      }
+      else
+      {
+        APP_DBG_MSG("  Success: aci_gatt_update_char_value REPMAP command\n\r");
+      }
+      /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_3_Char_3*/
+
+      /* USER CODE END CUSTOM_STM_App_Update_Service_3_Char_3*/
+      break;
+
+    case CUSTOM_STM_GAMEREP:
+      ret = aci_gatt_update_char_value(CustomContext.CustomHidsvcHdle,
+                                       CustomContext.CustomGamerepHdle,
+                                       0, /* charValOffset */
+                                       SizeGamerep, /* charValueLen */
+                                       (uint8_t *)  pPayload);
+      if (ret != BLE_STATUS_SUCCESS)
+      {
+        APP_DBG_MSG("  Fail   : aci_gatt_update_char_value GAMEREP command, result : 0x%x \n\r", ret);
+      }
+      else
+      {
+        APP_DBG_MSG("  Success: aci_gatt_update_char_value GAMEREP command\n\r");
+      }
+      /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_3_Char_4*/
+
+      /* USER CODE END CUSTOM_STM_App_Update_Service_3_Char_4*/
+      break;
+
+    case CUSTOM_STM_PROTMOD:
+      ret = aci_gatt_update_char_value(CustomContext.CustomHidsvcHdle,
+                                       CustomContext.CustomProtmodHdle,
+                                       0, /* charValOffset */
+                                       SizeProtmod, /* charValueLen */
+                                       (uint8_t *)  pPayload);
+      if (ret != BLE_STATUS_SUCCESS)
+      {
+        APP_DBG_MSG("  Fail   : aci_gatt_update_char_value PROTMOD command, result : 0x%x \n\r", ret);
+      }
+      else
+      {
+        APP_DBG_MSG("  Success: aci_gatt_update_char_value PROTMOD command\n\r");
+      }
+      /* USER CODE BEGIN CUSTOM_STM_App_Update_Service_3_Char_5*/
+
+      /* USER CODE END CUSTOM_STM_App_Update_Service_3_Char_5*/
       break;
 
     default:
