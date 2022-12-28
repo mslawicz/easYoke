@@ -96,7 +96,8 @@ void   MX_USART1_UART_Init(void);
 #define STLINK_TX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+#define LD_BLE_GPIO_Port LD1_GPIO_Port
+#define LD_BLE__Pin LD1_Pin
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

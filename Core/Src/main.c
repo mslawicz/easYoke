@@ -112,7 +112,7 @@ int main(void)
   MX_RF_Init();
   MX_RTC_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_GPIO_WritePin(LD_BLE_GPIO_Port, LD_BLE__Pin, GPIO_PIN_RESET);
   /* USER CODE END 2 */
 
   /* Init code for STM32_WPAN */

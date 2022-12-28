@@ -504,7 +504,7 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
       }
 
       /* USER CODE BEGIN EVT_DISCONN_COMPLETE_1 */
-
+      HAL_GPIO_WritePin(LD_BLE_GPIO_Port, LD_BLE__Pin, GPIO_PIN_RESET);
       /* USER CODE END EVT_DISCONN_COMPLETE_1 */
 
       /* restart advertising */
@@ -584,7 +584,7 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
           HandleNotification.ConnectionHandle = BleApplicationContext.BleApplicationContext_legacy.connectionHandle;
           Custom_APP_Notification(&HandleNotification);
           /* USER CODE BEGIN HCI_EVT_LE_CONN_COMPLETE */
-
+          HAL_GPIO_WritePin(LD_BLE_GPIO_Port, LD_BLE__Pin, GPIO_PIN_SET);
           /* USER CODE END HCI_EVT_LE_CONN_COMPLETE */
           break; /* HCI_LE_CONNECTION_COMPLETE_SUBEVT_CODE */
         }
