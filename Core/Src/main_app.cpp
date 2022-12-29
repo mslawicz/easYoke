@@ -20,11 +20,11 @@ void mainApp()
         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
         if(notify)
         {
-            notifyBatteryLevel(batteryLevel);
+            //notifyBatteryLevel(batteryLevel);
         }
         else
         {
-            updateBatteryLevel(batteryLevel);
+            //updateBatteryLevel(batteryLevel);
         }
         notify = !notify;
         if(batteryLevel-- == 0)

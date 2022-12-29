@@ -95,7 +95,7 @@
 #define CFG_MITM_PROTECTION_NOT_REQUIRED      (0x00)
 #define CFG_MITM_PROTECTION_REQUIRED          (0x01)
 
-#define CFG_MITM_PROTECTION                   CFG_MITM_PROTECTION_REQUIRED
+#define CFG_MITM_PROTECTION                   CFG_MITM_PROTECTION_NOT_REQUIRED
 
 /**
  * Define Secure Connections Support
@@ -578,7 +578,7 @@ typedef enum
 /**
  * When set to 1, the traces are enabled in the BLE services
  */
-#define CFG_DEBUG_BLE_TRACE     0
+#define CFG_DEBUG_BLE_TRACE     1
 
 /**
  * Enable or Disable traces in application

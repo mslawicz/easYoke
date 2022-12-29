@@ -246,6 +246,8 @@ void Custom_APP_Init(void)
     Custom_STM_App_Update_Char(CUSTOM_STM_GAMEREP, gamepadReport);
     value = PROTOCOL_MODE_REPORT;
     Custom_STM_App_Update_Char(CUSTOM_STM_PROTMOD, &value);
+    value = 67;
+    Custom_STM_App_Update_Char(CUSTOM_STM_BATLVL, &value);
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }
