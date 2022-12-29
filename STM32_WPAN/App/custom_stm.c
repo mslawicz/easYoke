@@ -139,8 +139,6 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
   hci_event_pckt *event_pckt;
   evt_blecore_aci *blecore_evt;
   aci_gatt_attribute_modified_event_rp0 *attribute_modified;
-  aci_gatt_write_permit_req_event_rp0   *write_perm_req;
-  aci_gatt_read_permit_req_event_rp0    *read_req;
   Custom_STM_App_Notification_evt_t     Notification;
   /* USER CODE BEGIN Custom_STM_Event_Handler_1 */
 
@@ -248,13 +246,6 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
             }
           }  /* if (attribute_modified->Attr_Handle == (CustomContext.CustomGamerepHdle + CHARACTERISTIC_DESCRIPTOR_ATTRIBUTE_OFFSET))*/
 
-          else if (attribute_modified->Attr_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /* USER CODE BEGIN CUSTOM_STM_Service_3_Char_2_ACI_GATT_ATTRIBUTE_MODIFIED_VSEVT_CODE */
-
-            /* USER CODE END CUSTOM_STM_Service_3_Char_2_ACI_GATT_ATTRIBUTE_MODIFIED_VSEVT_CODE */
-          } /* if (attribute_modified->Attr_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
           /* USER CODE BEGIN EVT_BLUE_GATT_ATTRIBUTE_MODIFIED_END */
 
           /* USER CODE END EVT_BLUE_GATT_ATTRIBUTE_MODIFIED_END */
@@ -264,84 +255,6 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
           /* USER CODE BEGIN EVT_BLUE_GATT_READ_PERMIT_REQ_BEGIN */
 
           /* USER CODE END EVT_BLUE_GATT_READ_PERMIT_REQ_BEGIN */
-          read_req = (aci_gatt_read_permit_req_event_rp0*)blecore_evt->data;
-          if (read_req->Attribute_Handle == (CustomContext.CustomManufnameHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
-
-            /*USER CODE END CUSTOM_STM_Service_2_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
-            aci_gatt_allow_read(read_req->Connection_Handle);
-            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
-
-            /*USER CODE END CUSTOM_STM_Service_2_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
-          } /* if (read_req->Attribute_Handle == (CustomContext.CustomManufnameHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-          else if (read_req->Attribute_Handle == (CustomContext.CustomModnumbHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
-
-            /*USER CODE END CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
-            aci_gatt_allow_read(read_req->Connection_Handle);
-            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
-
-            /*USER CODE END CUSTOM_STM_Service_2_Char_2_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
-          } /* if (read_req->Attribute_Handle == (CustomContext.CustomModnumbHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-          else if (read_req->Attribute_Handle == (CustomContext.CustomPnpidHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
-
-            /*USER CODE END CUSTOM_STM_Service_2_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
-            aci_gatt_allow_read(read_req->Connection_Handle);
-            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
-
-            /*USER CODE END CUSTOM_STM_Service_2_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
-          } /* if (read_req->Attribute_Handle == (CustomContext.CustomPnpidHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-          else if (read_req->Attribute_Handle == (CustomContext.CustomHidinfoHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
-            aci_gatt_allow_read(read_req->Connection_Handle);
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_1_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
-          } /* if (read_req->Attribute_Handle == (CustomContext.CustomHidinfoHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-          else if (read_req->Attribute_Handle == (CustomContext.CustomRepmapHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
-            aci_gatt_allow_read(read_req->Connection_Handle);
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_3_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
-          } /* if (read_req->Attribute_Handle == (CustomContext.CustomRepmapHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-          else if (read_req->Attribute_Handle == (CustomContext.CustomGamerepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
-            aci_gatt_allow_read(read_req->Connection_Handle);
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_4_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
-          } /* if (read_req->Attribute_Handle == (CustomContext.CustomGamerepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-          else if (read_req->Attribute_Handle == (CustomContext.CustomProtmodHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_1*/
-            aci_gatt_allow_read(read_req->Connection_Handle);
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2 */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_5_ACI_GATT_READ_PERMIT_REQ_VSEVT_CODE_2*/
-          } /* if (read_req->Attribute_Handle == (CustomContext.CustomProtmodHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
           /* USER CODE BEGIN EVT_BLUE_GATT_READ_PERMIT_REQ_END */
 
           /* USER CODE END EVT_BLUE_GATT_READ_PERMIT_REQ_END */
@@ -351,16 +264,6 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
           /* USER CODE BEGIN EVT_BLUE_GATT_WRITE_PERMIT_REQ_BEGIN */
 
           /* USER CODE END EVT_BLUE_GATT_WRITE_PERMIT_REQ_BEGIN */
-          write_perm_req = (aci_gatt_write_permit_req_event_rp0*)blecore_evt->data;
-          if (write_perm_req->Attribute_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /* Allow or reject a write request from a client using aci_gatt_write_resp(...) function */
-            /*USER CODE BEGIN CUSTOM_STM_Service_3_Char_2_ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE */
-
-            /*USER CODE END CUSTOM_STM_Service_3_Char_2_ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE*/
-          } /*if (write_perm_req->Attribute_Handle == (CustomContext.CustomHidctrlptHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-
           /* USER CODE BEGIN EVT_BLUE_GATT_WRITE_PERMIT_REQ_END */
 
           /* USER CODE END EVT_BLUE_GATT_WRITE_PERMIT_REQ_END */
@@ -500,7 +403,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizeManufname,
                           CHAR_PROP_READ,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomManufnameHdle));
@@ -521,7 +424,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizeModnumb,
                           CHAR_PROP_READ,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomModnumbHdle));
@@ -542,7 +445,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizePnpid,
                           CHAR_PROP_READ,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomPnpidHdle));
@@ -593,7 +496,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizeHidinfo,
                           CHAR_PROP_READ,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomHidinfoHdle));
@@ -614,7 +517,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizeHidctrlpt,
                           CHAR_PROP_WRITE_WITHOUT_RESP,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomHidctrlptHdle));
@@ -635,7 +538,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizeRepmap,
                           CHAR_PROP_READ,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomRepmapHdle));
@@ -656,7 +559,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizeGamerep,
                           CHAR_PROP_READ | CHAR_PROP_NOTIFY,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomGamerepHdle));
@@ -677,7 +580,7 @@ void SVCCTL_InitCustomSvc(void)
                           SizeProtmod,
                           CHAR_PROP_READ,
                           ATTR_PERMISSION_NONE,
-                          GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
+                          GATT_DONT_NOTIFY_EVENTS,
                           0x10,
                           CHAR_VALUE_LEN_CONSTANT,
                           &(CustomContext.CustomProtmodHdle));
