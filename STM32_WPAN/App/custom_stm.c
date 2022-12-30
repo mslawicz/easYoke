@@ -65,7 +65,7 @@ typedef struct{
 #define CHARACTERISTIC_DESCRIPTOR_ATTRIBUTE_OFFSET         2
 #define CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET              1
 /* USER CODE BEGIN PM */
-
+#define REP_REF_DESC_LEN   2
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -89,7 +89,8 @@ static CustomContext_t CustomContext;
  */
 
 /* USER CODE BEGIN PV */
-
+uint8_t reportReferenceDescriptor[REP_REF_DESC_LEN] = {0, 1};
+static uint16_t CustomGamerepRefDescHdle;   /**< GamepadReport reference descriptor handle */
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -476,7 +477,7 @@ void SVCCTL_InitCustomSvc(void)
   ret = aci_gatt_add_service(UUID_TYPE_128,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
-                             12,
+                             14 ,   //XXX increased from 12 to 14 because of report description
                              &(CustomContext.CustomHidsvcHdle));
   if (ret != BLE_STATUS_SUCCESS)
   {
@@ -594,7 +595,29 @@ void SVCCTL_InitCustomSvc(void)
   }
 
   /* USER CODE BEGIN SVCCTL_InitCustomSvc_2 */
-
+  /* add gamepad report reference descriptor */
+  uuid.Char_UUID_16 = REPORT_REFERENCE_DESCRIPTOR_UUID;
+  ret = aci_gatt_add_char_desc( CustomContext.CustomHidsvcHdle,
+                        CustomContext.CustomGamerepHdle,
+                        UUID_TYPE_16,
+                        (Char_Desc_Uuid_t *) &uuid,
+                        REP_REF_DESC_LEN,
+                        REP_REF_DESC_LEN,
+                        reportReferenceDescriptor,
+                        ATTR_PERMISSION_NONE,
+                        ATTR_ACCESS_READ_ONLY,
+                        0,
+                        0x10,
+                        CHAR_VALUE_LEN_CONSTANT,
+                        &CustomGamerepRefDescHdle );
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char_desc command   : GAMEREP REFERENCE, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+    APP_DBG_MSG("  Success: aci_gatt_add_char_desc command   : GAMEREP REFERENCE\n\r");
+  }
   /* USER CODE END SVCCTL_InitCustomSvc_2 */
 
   return;
