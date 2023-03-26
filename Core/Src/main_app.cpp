@@ -15,16 +15,18 @@ void mainApp()
     static uint32_t cnt = 0;
     static uint8_t batteryLevel = 99;
     static bool notify = false;
-    if(cnt++ > 300000)
+    if(cnt++ > 200000)
     {
         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
         if(notify)
         {
             //notifyBatteryLevel(batteryLevel);
+            //notifyGamepadReport();
         }
         else
         {
             //updateBatteryLevel(batteryLevel);
+            //updateGamepadReport();
         }
         notify = !notify;
         if(batteryLevel-- == 0)

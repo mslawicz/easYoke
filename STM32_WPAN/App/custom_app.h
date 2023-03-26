@@ -73,6 +73,8 @@ void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification);
 /* USER CODE BEGIN EF */
 void updateBatteryLevel(uint8_t value);
 void notifyBatteryLevel(uint8_t value);
+void updateGamepadReport(void);
+void notifyGamepadReport(void);
 /* USER CODE END EF */
 
 #ifdef __cplusplus
