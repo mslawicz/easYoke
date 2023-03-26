@@ -107,7 +107,7 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
     /* BatteryService */
     case CUSTOM_STM_BATLVL_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_BATLVL_READ_EVT */
-
+        APP_DBG_MSG("\r\n\r** CUSTOM_STM_BATLVL_READ_EVT \n");
       /* USER CODE END CUSTOM_STM_BATLVL_READ_EVT */
       break;
 
@@ -126,7 +126,7 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
     /* DeviceInformationService */
     case CUSTOM_STM_MANUFNAME_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_MANUFNAME_READ_EVT */
-
+        APP_DBG_MSG("\r\n\r** CUSTOM_STM_MANUFNAME_READ_EVT \n");
       /* USER CODE END CUSTOM_STM_MANUFNAME_READ_EVT */
       break;
 
@@ -145,25 +145,25 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
     /* HumanInterfaceDeviceService */
     case CUSTOM_STM_HIDINFO_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_HIDINFO_READ_EVT */
-
+      APP_DBG_MSG("\r\n\r** CUSTOM_STM_HIDINFO_READ_EVT \n");
       /* USER CODE END CUSTOM_STM_HIDINFO_READ_EVT */
       break;
 
     case CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT:
       /* USER CODE BEGIN CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT */
-
+      APP_DBG_MSG("\r\n\r** CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT \n");
       /* USER CODE END CUSTOM_STM_HIDCTRLPT_WRITE_NO_RESP_EVT */
       break;
 
     case CUSTOM_STM_REPMAP_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_REPMAP_READ_EVT */
-
+      APP_DBG_MSG("\r\n\r** CUSTOM_STM_REPMAP_READ_EVT \n");
       /* USER CODE END CUSTOM_STM_REPMAP_READ_EVT */
       break;
 
     case CUSTOM_STM_GAMEREP_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_GAMEREP_READ_EVT */
-
+      APP_DBG_MSG("\r\n\r** CUSTOM_STM_GAMEREP_READ_EVT \n");
       /* USER CODE END CUSTOM_STM_GAMEREP_READ_EVT */
       break;
 
