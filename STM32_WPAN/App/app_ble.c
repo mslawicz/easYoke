@@ -354,7 +354,8 @@ void APP_BLE_Init(void)
      CFG_BLE_MAX_ADV_DATA_LEN,
      CFG_BLE_TX_PATH_COMPENS,
      CFG_BLE_RX_PATH_COMPENS,
-     CFG_BLE_CORE_VERSION
+     CFG_BLE_CORE_VERSION,
+     CFG_BLE_OPTIONS_EXT
     }
   };
 
@@ -534,8 +535,8 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
 #if (CFG_DEBUG_APP_TRACE != 0)
           p_connection_update_complete_event = (hci_le_connection_update_complete_event_rp0 *) p_meta_evt->data;
           APP_DBG_MSG(">>== HCI_LE_CONNECTION_UPDATE_COMPLETE_SUBEVT_CODE\n");
-          APP_DBG_MSG("     - Connection Interval:   %d ms\n     - Connection latency:    %d\n     - Supervision Timeout: %d ms\n\r",
-                       p_connection_update_complete_event->Conn_Interval + (p_connection_update_complete_event->Conn_Interval >> 2),    //XXX changed for time display
+          APP_DBG_MSG("     - Connection Interval:   %.2f ms\n     - Connection latency:    %d\n     - Supervision Timeout: %d ms\n\r",
+                       p_connection_update_complete_event->Conn_Interval*1.25,
                        p_connection_update_complete_event->Conn_Latency,
                        p_connection_update_complete_event->Supervision_Timeout*10);
 #endif /* CFG_DEBUG_APP_TRACE != 0 */
@@ -560,8 +561,8 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
                       p_connection_complete_event->Peer_Address[2],
                       p_connection_complete_event->Peer_Address[1],
                       p_connection_complete_event->Peer_Address[0]);
-          APP_DBG_MSG("     - Connection Interval:   %d ms\n     - Connection latency:    %d\n     - Supervision Timeout: %d ms\n\r",   //XXX changed for time display
-                      p_connection_complete_event->Conn_Interval + (p_connection_complete_event->Conn_Interval >> 2),
+          APP_DBG_MSG("     - Connection Interval:   %.2f ms\n     - Connection latency:    %d\n     - Supervision Timeout: %d ms\n\r",
+                      p_connection_complete_event->Conn_Interval*1.25,
                       p_connection_complete_event->Conn_Latency,
                       p_connection_complete_event->Supervision_Timeout*10
                      );
@@ -838,7 +839,7 @@ static void Ble_Hci_Gap_Gatt_Init(void)
 #endif /* CFG_STATIC_RANDOM_ADDRESS */
 #endif
 
-#if (CFG_BLE_ADDRESS_TYPE != PUBLIC_ADDR)
+#if (CFG_BLE_ADDRESS_TYPE != GAP_PUBLIC_ADDR)
 
   ret = aci_hal_write_config_data(CONFIG_DATA_RANDOM_ADDRESS_OFFSET, CONFIG_DATA_RANDOM_ADDRESS_LEN, (uint8_t*)a_srd_bd_addr);
   if (ret != BLE_STATUS_SUCCESS)
@@ -855,7 +856,7 @@ static void Ble_Hci_Gap_Gatt_Init(void)
                                                                                (uint8_t)(a_srd_bd_addr[0] >> 8),
                                                                                (uint8_t)(a_srd_bd_addr[0]));
   }
-#endif /* CFG_BLE_ADDRESS_TYPE != PUBLIC_ADDR */
+#endif /* CFG_BLE_ADDRESS_TYPE != GAP_PUBLIC_ADDR */
 
   /**
    * Write Identity root key used to derive LTK and CSRK

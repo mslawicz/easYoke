@@ -477,7 +477,7 @@ void SVCCTL_InitCustomSvc(void)
   ret = aci_gatt_add_service(UUID_TYPE_128,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
-                             14 ,   //XXX increased from 12 to 14 because of report description
+                             12,
                              &(CustomContext.CustomHidsvcHdle));
   if (ret != BLE_STATUS_SUCCESS)
   {
